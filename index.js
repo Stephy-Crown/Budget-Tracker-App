@@ -43,7 +43,7 @@ document
     }
   });
 
-// Function for the transaction lst
+// Function for add transaction list
 function addTransaction(transaction) {
   const transactionList = document.getElementById("transaction-list");
 
@@ -86,6 +86,7 @@ function addTransaction(transaction) {
   transactionList.appendChild(item);
 }
 
+// Function for Editing the transaction
 function editTransaction(id) {
   const transaction = transactions.find((transaction) => transaction.id === id);
   if (transaction) {
@@ -97,6 +98,7 @@ function editTransaction(id) {
   }
 }
 
+// Function to Delete a Transaction
 function removeTransaction(id) {
   transactions = transactions.filter((transaction) => transaction.id !== id);
   updateValues();
@@ -104,6 +106,7 @@ function removeTransaction(id) {
   renderTransactions();
 }
 
+// Function to Update Transaction
 function updateValues() {
   const amounts = transactions.map((transaction) => transaction.amount);
   const totalIncome = amounts
@@ -125,10 +128,12 @@ function updateValues() {
   ).toFixed(2)}`;
 }
 
+// Function to save transaction in local storage
 function saveTransactions() {
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
+// Function to load my transaction from local storage
 function loadTransactions() {
   const storedTransactions = localStorage.getItem("transactions");
   if (storedTransactions) {
@@ -137,12 +142,14 @@ function loadTransactions() {
   }
 }
 
+// Function to render transactions
 function renderTransactions() {
   const transactionList = document.getElementById("transaction-list");
   transactionList.innerHTML = "";
   transactions.forEach(addTransaction);
 }
 
+// Function to clear inputs
 function clearInputs() {
   document.getElementById("date").value = "";
   document.getElementById("description").value = "";
@@ -152,6 +159,7 @@ function clearInputs() {
 loadTransactions();
 updateValues();
 
+// Grabbing and Adding event listener for my Toggle button
 document
   .getElementById("toggle-transaction-list")
   .addEventListener("click", function () {
