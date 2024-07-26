@@ -62,7 +62,7 @@ function addTransaction(transaction) {
       <div class="flex space-x-2">
           <button onclick="editTransaction(${
             transaction.id
-          })" class="bg-yellow-500 text-white p-2 rounded">Edit</button>
+          })" class="bg-yellow-500  p-2 rounded">Edit</button>
           <button onclick="removeTransaction(${
             transaction.id
           })" class="bg-red-500 text-white p-2 rounded">Delete</button>
@@ -83,6 +83,16 @@ function clearInputs() {
   document.getElementById("description").value = "";
   document.getElementById("amount").value = "";
 }
+
+function loadTransactions() {
+  const storedTransactions = localStorage.getItem("transactions");
+  if (storedTransactions) {
+    transactions = JSON.parse(storedTransactions);
+    renderTransactions();
+  }
+}
+loadTransactions();
+updateValues();
 
 document
   .getElementById("add-transaction")
@@ -120,5 +130,40 @@ document
       saveTransactions();
       clearInputs();
       renderTransactions();
+    }
+  });
+
+// Functionality for editing and deleting transactions
+function editTransaction(id) {
+  const transaction = transactions.find((transaction) => transaction.id === id);
+  if (transaction) {
+    document.getElementById("date").value = transaction.date;
+    document.getElementById("description").value = transaction.description;
+    document.getElementById("amount").value = transaction.amount;
+
+    editingTransactionId = id; // Store the ID of the transaction being edited
+  }
+}
+
+function removeTransaction(id) {
+  transactions = transactions.filter((transaction) => transaction.id !== id);
+  updateValues();
+  saveTransactions();
+  renderTransactions();
+}
+
+document
+  .getElementById("toggle-transaction-list")
+  .addEventListener("click", function () {
+    const transactionList = document.getElementById("transaction-list");
+    if (
+      transactionList.style.display === "none" ||
+      transactionList.style.display === ""
+    ) {
+      transactionList.style.display = "block";
+      this.textContent = "Hide Transactions";
+    } else {
+      transactionList.style.display = "none";
+      this.textContent = "Show Transactions";
     }
   });
