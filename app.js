@@ -1,41 +1,39 @@
-// Initialization of variables
+// Initialize an array to store transactions and a variable to track the transaction being edited
 let transactions = [];
-// Variable to store the ID of the transaction being edited
 let editingTransactionId = null;
 
-// Grabbing and editing the add transaction and adding event listener
+// Add event listener to the "Add Transaction" button
 document
   .getElementById("add-transaction")
   .addEventListener("click", function () {
-    const dateInput = document.getElementById("date");
-    const descriptionInput = document.getElementById("description");
-    const amountInput = document.getElementById("amount");
+    const date = document.getElementById("date").value;
+    const description = document.getElementById("description").value;
+    const amount = parseFloat(document.getElementById("amount").value);
 
-    const date = dateInput.value;
-    const description = descriptionInput.value;
-    const amount = parseFloat(amountInput.value);
-
+    // Ensure valid inputs for description and amount
     if (description && !isNaN(amount)) {
       if (editingTransactionId !== null) {
+        // Edit the existing transaction
         const transaction = transactions.find(
-          (transaction) => transaction.id === editingTransactionId
+          (t) => t.id === editingTransactionId
         );
         if (transaction) {
           transaction.date = date;
           transaction.description = description;
           transaction.amount = amount;
         }
-        editingTransactionId = null; // Reset the editing ID
+        editingTransactionId = null; // Reset editing ID
       } else {
-        const transaction = {
+        // Add a new transaction
+        transactions.push({
           id: Date.now(),
-          date: date,
-          description: description,
-          amount: amount,
-        };
-        transactions.push(transaction);
+          date,
+          description,
+          amount,
+        });
       }
 
+      // Update UI and persist data
       updateValues();
       saveTransactions();
       clearInputs();
@@ -43,53 +41,47 @@ document
     }
   });
 
-// Function for add transaction list
+// Add a transaction to the UI
 function addTransaction(transaction) {
   const transactionList = document.getElementById("transaction-list");
 
+  // Create a new transaction list item
   const item = document.createElement("li");
-  item.classList.add(
-    "flex",
-    "justify-between",
-    "items-center",
-    "p-2",
-    "border-b"
-  );
+  item.className = "flex justify-between items-center p-2 border-b";
 
   item.innerHTML = `
-      <div>
-          <p class="font-bold">Date:</p>
-          <p>${transaction.date}</p>
-      </div>
-      <div>
-          <p class="font-bold">Description:</p>
-          <p>${transaction.description}</p>
-      </div>
-      <div>
-          <p class="font-bold">Amount:</p>
-          <p class="${
-            transaction.amount < 0 ? "text-red-500" : "text-green-500"
-          }">${transaction.amount < 0 ? "-" : ""}$${Math.abs(
-    transaction.amount
-  ).toFixed(2)}</p>
-      </div>
-      <div class="flex space-x-2">
-          <button onclick="editTransaction(${
-            transaction.id
-          })" class="bg-yellow-500 text-white p-2 rounded">Edit</button>
-          <button onclick="removeTransaction(${
-            transaction.id
-          })" class="bg-red-500 text-white p-2 rounded">Delete</button>
-      </div>
+    <div>
+      <p class="font-bold">Date:</p>
+      <p>${transaction.date}</p>
+    </div>
+    <div>
+      <p class="font-bold">Description:</p>
+      <p>${transaction.description}</p>
+    </div>
+    <div>
+      <p class="font-bold">Amount:</p>
+      <p class="${transaction.amount < 0 ? "text-red-500" : "text-green-500"}">
+        ₦${Math.abs(transaction.amount).toFixed(2)}
+      </p>
+    </div>
+    <div class="flex space-x-2">
+      <button 
+        onclick="editTransaction(${transaction.id})" 
+        class="bg-yellow-500 text-white p-2 rounded">Edit</button>
+      <button 
+        onclick="removeTransaction(${transaction.id})" 
+        class="bg-red-500 text-white p-2 rounded">Delete</button>
+    </div>
   `;
 
   transactionList.appendChild(item);
 }
 
-// Function for Editing the transaction
+// Edit an existing transaction
 function editTransaction(id) {
-  const transaction = transactions.find((transaction) => transaction.id === id);
+  const transaction = transactions.find((t) => t.id === id);
   if (transaction) {
+    // Populate input fields with the transaction details
     document.getElementById("date").value = transaction.date;
     document.getElementById("description").value = transaction.description;
     document.getElementById("amount").value = transaction.amount;
@@ -98,42 +90,40 @@ function editTransaction(id) {
   }
 }
 
-// Function to Delete a Transaction
+// Remove a transaction
 function removeTransaction(id) {
-  transactions = transactions.filter((transaction) => transaction.id !== id);
+  transactions = transactions.filter((t) => t.id !== id);
   updateValues();
   saveTransactions();
   renderTransactions();
 }
 
-// Function to Update Transaction
+// Update balance, income, and expenses
 function updateValues() {
-  const amounts = transactions.map((transaction) => transaction.amount);
+  const amounts = transactions.map((t) => t.amount);
   const totalIncome = amounts
-    .filter((amount) => amount > 0)
-    .reduce((acc, amount) => (acc += amount), 0)
+    .filter((a) => a > 0)
+    .reduce((sum, a) => sum + a, 0)
     .toFixed(2);
   const totalExpenses = amounts
-    .filter((amount) => amount < 0)
-    .reduce((acc, amount) => (acc += amount), 0)
+    .filter((a) => a < 0)
+    .reduce((sum, a) => sum + a, 0)
     .toFixed(2);
-  const balance = amounts
-    .reduce((acc, amount) => (acc += amount), 0)
-    .toFixed(2);
+  const balance = amounts.reduce((sum, a) => sum + a, 0).toFixed(2);
 
-  document.getElementById("balance").innerText = `$${balance}`;
-  document.getElementById("total-income").innerText = `$${totalIncome}`;
-  document.getElementById("total-expenses").innerText = `$${Math.abs(
+  document.getElementById("balance").innerText = `₦${balance}`;
+  document.getElementById("total-income").innerText = `₦${totalIncome}`;
+  document.getElementById("total-expenses").innerText = `₦${Math.abs(
     totalExpenses
   ).toFixed(2)}`;
 }
 
-// Function to save transaction in local storage
+// Save transactions to local storage
 function saveTransactions() {
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
-// Function to load my transaction from local storage
+// Load transactions from local storage
 function loadTransactions() {
   const storedTransactions = localStorage.getItem("transactions");
   if (storedTransactions) {
@@ -142,36 +132,33 @@ function loadTransactions() {
   }
 }
 
-// Function to render transactions
+// Render all transactions to the UI
 function renderTransactions() {
   const transactionList = document.getElementById("transaction-list");
-  transactionList.innerHTML = "";
+  transactionList.innerHTML = ""; // Clear the list
   transactions.forEach(addTransaction);
 }
 
-// Function to clear inputs
+// Clear input fields
 function clearInputs() {
   document.getElementById("date").value = "";
   document.getElementById("description").value = "";
   document.getElementById("amount").value = "";
 }
 
-loadTransactions();
-updateValues();
-
-// Grabbing and Adding event listener for my Toggle button
+// Toggle visibility of the transaction list
 document
   .getElementById("toggle-transaction-list")
   .addEventListener("click", function () {
     const transactionList = document.getElementById("transaction-list");
-    if (
+    const isHidden =
       transactionList.style.display === "none" ||
-      transactionList.style.display === ""
-    ) {
-      transactionList.style.display = "block";
-      this.textContent = "Hide Transactions";
-    } else {
-      transactionList.style.display = "none";
-      this.textContent = "Show Transactions";
-    }
+      !transactionList.style.display;
+
+    transactionList.style.display = isHidden ? "block" : "none";
+    this.textContent = isHidden ? "Hide Transactions" : "Show Transactions";
   });
+
+// Load data and initialize the app
+loadTransactions();
+updateValues();

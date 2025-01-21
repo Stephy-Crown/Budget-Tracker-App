@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Budget Tracker</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link href="src/output.css" rel="stylesheet" />
+    <link href="src/styles.css" rel="stylesheet" />
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+      <!-- Header Section -->
+      <header class="mb-6 text-center">
+        <h1 class="text-3xl font-bold">Personal Budget Tracker</h1>
+      </header>
+
+      <!-- Balance Section -->
+      <section class="bg-white p-4 rounded shadow mb-6">
+        <h2 class="text-2xl font-bold text-center mb-2">Balance</h2>
+        <p id="balance" class="text-4xl font-bold text-center text-green-500">
+          ₦0.00
+        </p>
+      </section>
+
+      <!-- Income and Expenses Section -->
+      <section class="bg-white p-4 rounded shadow mb-6">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <h3 class="text-xl font-bold">Total Income</h3>
+            <p id="total-income" class="text-2xl font-bold text-green-500">
+              ₦0.00
+            </p>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold">Total Expenses</h3>
+            <p id="total-expenses" class="text-2xl font-bold text-red-500">
+              ₦0.00
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Add New Transaction Section -->
+      <section class="bg-white p-4 rounded shadow mb-6">
+        <h3 class="text-xl font-bold mb-4">Add a New Transaction</h3>
+        <form id="transaction-form" class="space-y-4">
+          <div>
+            <label for="description" class="block font-semibold mb-1"
+              >Description</label
+            >
+            <input
+              type="text"
+              id="description"
+              placeholder="Description"
+              class="border p-2 rounded w-full"
+            />
+          </div>
+          <div>
+            <label for="amount" class="block font-semibold mb-1"
+              >Amount (+ Income / - Expense)</label
+            >
+            <input
+              type="number"
+              id="amount"
+              placeholder="Amount"
+              class="border p-2 rounded w-full"
+            />
+          </div>
+          <div>
+            <label for="date" class="block font-semibold mb-1">Date</label>
+            <input type="date" id="date" class="border p-2 rounded w-full" />
+          </div>
+          <button
+            type="button"
+            id="add-transaction"
+            class="bg-green-500 text-white p-2 rounded w-full"
+          >
+            Add Transaction
+          </button>
+        </form>
+      </section>
+
+      <!-- Toggle Transaction List Button -->
+      <div class="flex justify-center items-center mb-4">
+        <button
+          id="toggle-transaction-list"
+          class="bg-blue-500 text-white p-2 rounded"
+        >
+          Show Transactions
+        </button>
+      </div>
+
+      <!-- Transaction List Section -->
+      <section
+        id="transaction-list-container"
+        class="hidden bg-white p-4 rounded shadow"
+      >
+        <h3 class="text-xl font-bold mb-4">Transactions</h3>
+        <ul id="transaction-list" class="space-y-2">
+          <!-- Transaction items will be rendered here dynamically -->
+        </ul>
+      </section>
+
+      <!-- Footer Section -->
+      <footer class="bg-gray-200 p-4 rounded shadow mt-6 text-center">
+        <p class="text-gray-700">Made with ❤️ by Stephane Udemezue</p>
+        <p class="text-gray-600">Version 1.0</p>
+        <div class="mt-2">
+          <a
+            href="mailto:stephane.udemezue@example.com"
+            class="text-blue-500 hover:underline"
+            >Email</a
+          >
+          |
+          <a
+            href="https://twitter.com/stephane_ud"
+            target="_blank"
+            class="text-blue-500 hover:underline"
+            >Twitter</a
+          >
+          |
+          <a
+            href="https://linkedin.com/in/stephane-udemezue"
+            target="_blank"
+            class="text-blue-500 hover:underline"
+            >LinkedIn</a
+          >
+        </div>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
