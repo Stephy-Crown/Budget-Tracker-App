@@ -84,6 +84,10 @@ Through this project, I applied and enhanced the following skills:
 
 ### Version 2 (Ongoing):
 
+**Version 2** introduces a modern stack and advanced features to make the app more efficient and user-friendly.
+
+[👉 Explore Version 2 Repository](https://fin-tracker-eight.vercel.app/)
+
 - **Next.js**: Building modern web applications with server-side rendering.
 - **TypeScript**: Writing scalable, type-safe code.
 - **Firebase/Clerk Integration**: Real-time database management and authentication.
