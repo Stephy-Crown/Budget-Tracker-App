@@ -4,7 +4,7 @@ The **Budget Tracker App** empowers users to manage their finances effectively b
 
 This project has two versions:
 
-1. **Version 1**: Built using **HTML**, **TailwindCSS**, and **JavaScript**.
+1. **Version 1**: Built using **HTML**, **TailwindCSS**, and **JavaScript**. This is the **Version 1**.
 2. **Version 2**: Upgraded to use **Next.js**, **TailwindCSS**, for a more scalable, modern framework and includes advanced features.
 
 ---
@@ -51,6 +51,7 @@ This project has two versions:
 ## Version 2 (In Development)
 
 **Version 2** introduces a modern stack and advanced features to make the app more efficient and user-friendly.
+[👉 Explore Version 2 Repository](https://fin-tracker-eight.vercel.app/)
 
 ### Technologies Used
 
@@ -85,8 +86,6 @@ Through this project, I applied and enhanced the following skills:
 ### Version 2 (Ongoing):
 
 **Version 2** introduces a modern stack and advanced features to make the app more efficient and user-friendly.
-
-[👉 Explore Version 2 Repository](https://fin-tracker-eight.vercel.app/)
 
 - **Next.js**: Building modern web applications with server-side rendering.
 - **TypeScript**: Writing scalable, type-safe code.
